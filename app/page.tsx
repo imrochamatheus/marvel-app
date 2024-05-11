@@ -1,7 +1,12 @@
+"use client";
+
+import { StyledMain } from "@/styles/home.styles";
+import LogoComponent from "@/components/LogoComponent";
+
 export default function Home() {
   return (
-    <div>
-      <h1>App</h1>
-    </div>
+    <StyledMain>
+      <LogoComponent />
+    </StyledMain>
   );
 }
