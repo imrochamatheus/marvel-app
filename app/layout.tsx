@@ -4,6 +4,7 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 
 import StyledComponentsRegistry from "../lib/registry";
+import MediaAPIProvider from "@/contexts/MediaAPIContext";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -20,7 +21,9 @@ export default function RootLayout({
   return (
     <html>
       <body>
-        <StyledComponentsRegistry>{children}</StyledComponentsRegistry>
+        <MediaAPIProvider>
+          <StyledComponentsRegistry>{children}</StyledComponentsRegistry>
+        </MediaAPIProvider>
       </body>
     </html>
   );
