@@ -1,17 +1,35 @@
-import PreviewCard from "../ui/PreviewCard";
+"use client";
+
+import { useEffect, useState } from "react";
+import PreviewCard from "@/ui/PreviewCard";
+
+import { MediaType, PreviewCardProps } from "@/types/previewCard.types";
+import { fetchMedia } from "@/services/media";
 
 export default function Home() {
+  const [cardsData, setCardsData] = useState<PreviewCardProps[]>([]);
+  const [loading, setLoading] = useState<boolean>(true);
+  const [error, setError] = useState<boolean>(false);
+
+  useEffect(() => {
+    setLoading(true);
+
+    fetchMedia(MediaType.CHARACTER)
+      .then((data) => {
+        setCardsData(data ?? []);
+      })
+      .catch(() => setError(true))
+      .finally(() => setLoading(false));
+  }, []);
+
   return (
     <div>
-      <h1>Home</h1>
-      <p>Welcome to the home page.</p>
+      {loading && <p>Loading...</p>}
+      {error && <p>Erro ao buscar dados</p>}
 
-      <PreviewCard
-        title="Homem-Aranha"
-        image="/spider_man_cover.png"
-        href="https://www.marvel.com/characters/captain-america-steve-rogers/on-screen"
-        description="Após ser mordido por uma aranha radioativa, Peter Parker se torna o amigo da vizinhança, o Homem-Aranha."
-      ></PreviewCard>
+      {cardsData.map((card, index) => (
+        <PreviewCard key={index} {...card}></PreviewCard>
+      ))}
     </div>
   );
 }
