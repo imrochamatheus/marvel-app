@@ -11,10 +11,10 @@ import {
 import { PreviewCardProps } from "../types/previewCard.types";
 
 export default function PreviewCard({
-  title = "Homem-Aranha",
-  description = "Após ser mordido por uma aranha radioativa, Peter Parker se torna o amigo da vizinhança, o Homem-Aranha.",
-  image = "/spider_man_cover.png",
-  href = "https://www.marvel.com/characters/captain-america-steve-rogers/on-screen",
+  title,
+  href,
+  image,
+  description,
 }: PreviewCardProps) {
   return (
     <StyledPreviewCard
