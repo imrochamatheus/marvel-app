@@ -1,3 +1,5 @@
+import React, { useState } from "react";
+
 import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
@@ -5,29 +7,41 @@ import { usePathname } from "next/navigation";
 import {
   NavItem,
   HeaderNav,
-  HeaderAvatar,
   StyledHeader,
+  HeaderAvatar,
+  HamburguerMenuButton,
 } from "@/styles/header.styles";
 import Logo from "./LogoComponent";
+import { NavItemType } from "@/types/header.types";
 
-export default function HeaderComponent() {
+const navItems: NavItemType[] = [
+  { text: "Personagens", href: "/character" },
+  { text: "Filmes", href: "/movie" },
+  { text: "HQs", href: "/hq" },
+];
+
+const HeaderComponent = () => {
   const pathname = usePathname();
+  const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false);
+
+  const getLinkOpacity = (href: string): number => {
+    return pathname === href ? 1 : 0.25;
+  };
 
   return (
     <StyledHeader>
       <Logo />
-      <HeaderNav>
-        <NavItem active={pathname === "/character"}>
-          <Link href="/character">Personagens</Link>
-        </NavItem>
-
-        <NavItem active={pathname === "/movie"}>
-          <Link href="/movie">Filmes</Link>
-        </NavItem>
-
-        <NavItem active={pathname === "/hq"}>
-          <Link href="/hq">HQs</Link>
-        </NavItem>
+      <HamburguerMenuButton onClick={() => setIsMenuOpen(!isMenuOpen)}>
+        <div />
+        <div />
+        <div />
+      </HamburguerMenuButton>
+      <HeaderNav isopen={isMenuOpen ? isMenuOpen.toString() : undefined}>
+        {navItems.map((item, index) => (
+          <NavItem key={index} opacity={getLinkOpacity(item.href)}>
+            <Link href={item.href}>{item.text}</Link>
+          </NavItem>
+        ))}
       </HeaderNav>
       <HeaderAvatar>
         <Image
@@ -40,4 +54,6 @@ export default function HeaderComponent() {
       </HeaderAvatar>
     </StyledHeader>
   );
-}
+};
+
+export default HeaderComponent;
